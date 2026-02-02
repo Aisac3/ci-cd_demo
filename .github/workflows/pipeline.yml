@@ -1,0 +1,25 @@
+name: CI - Build Versioned Docker Image
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    env:
+      IMAGE_NAME: backend-api
+      IMAGE_TAG: ${{ github.sha }}
+
+    steps:
+      - name: Checkout source code
+        uses: actions/checkout@v4
+
+      - name: Print build metadata
+        run: |
+          echo "Repository: ${{ github.repository }}"
+          echo "Commit SHA: $IMAGE_TAG"
+
+
