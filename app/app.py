@@ -11,6 +11,18 @@ ENVIRONMENT = os.getenv("ENVIRONMENT", "dev")
 FAIL_MODE = os.getenv("FAIL_MODE", "false").lower()
 
 
+FEATURE_FLAG = "ENABLED"
+
+@app.route("/feature")
+def feature():
+    return jsonify(
+        feature="new-endpoint",
+        status=FEATURE_FLAG,
+        commit=GIT_COMMIT
+    )
+
+
+
 @app.route("/health")
 def health():
     if FAIL_MODE == "true":
@@ -33,6 +45,7 @@ def status():
         uptime="running",
         environment=ENVIRONMENT
     ), 200
+
 
 
 if __name__ == "__main__":
