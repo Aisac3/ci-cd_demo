@@ -1,0 +1,21 @@
+---
+- name: Deploy backend API to Kubernetes
+  hosts: local
+  vars:
+    image_name: backend-api
+    image_tag: "{{ image_tag }}"
+
+  tasks:
+    - name: Validate image tag is provided
+      fail:
+        msg: "image_tag variable is required"
+      when: image_tag is not defined
+
+    - name: Deploy application with specified image
+      command: >
+        kubectl set image deployment/backend-api
+        backend-api={{ image_name }}:{{ image_tag }}
+
+    - name: Wait for rollout to complete
+      command: >
+        kubectl rollout status deployment/backend-api

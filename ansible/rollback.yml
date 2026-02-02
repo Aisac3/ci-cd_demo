@@ -1,0 +1,21 @@
+---
+- name: Roll back backend API to previous version
+  hosts: local
+  vars:
+    image_name: backend-api
+    image_tag: "{{ image_tag }}"
+
+  tasks:
+    - name: Validate rollback image tag is provided
+      fail:
+        msg: "rollback image_tag is required"
+      when: image_tag is not defined
+
+    - name: Roll back application
+      command: >
+        kubectl set image deployment/backend-api
+        backend-api={{ image_name }}:{{ image_tag }}
+
+    - name: Verify rollback status
+      command: >
+        kubectl rollout status deployment/backend-api
