@@ -21,7 +21,8 @@ spec:
     spec:
       containers:
         - name: backend-api
-          image: backend-api:REPLACE_WITH_SHA
+          image: backend-api:<sha>
+
           imagePullPolicy: IfNotPresent
 
           ports:
